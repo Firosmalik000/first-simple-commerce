@@ -21,9 +21,10 @@ function AuthContextProvider(props) {
 
   useEffect(() => {
     getUseData((data) => {
+      console.log(data);
       setUser(data);
     });
-  },[]);
+  }, []);
 
   return <AuthContext.Provider value={{ user, loggedIn, getLoggedIn }}>{props.children}</AuthContext.Provider>;
 }

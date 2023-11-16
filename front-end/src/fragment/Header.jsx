@@ -41,9 +41,7 @@ const Header = () => {
         ) : (
           <Link to={'/profile'}>
             {' '}
-            <button className=" bg-none rounded text-black hover:text-white rounded-lg hover:bg-sky-600  transition duration-300 px-4 py-2">
-              <FaRegUserCircle className="text-3xl " />
-            </button>
+            <button className="  rounded text-black hover:text-white rounded-lg hover:bg-sky-600  transition duration-300 px-4 py-2">{user.name}</button>
           </Link>
         )}
         <Link to={'/cart'}>

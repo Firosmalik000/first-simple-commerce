@@ -21,7 +21,9 @@ const FormLogin = () => {
         },
         withCredentials: true,
       });
-
+      localStorage.setItem('token', response.data.token);
+      const userId = response.data; // Asumsikan respons server menyertakan ID pengguna
+      localStorage.setItem('userId', userId);
       console.log(response);
       localStorage.setItem('token', response.data.token);
 

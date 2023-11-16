@@ -14,6 +14,7 @@ function Logoutbtn() {
         withCredentials: true,
       });
       await getLoggedIn();
+      localStorage.removeItem('cart');
       navigate('/login');
       localStorage.removeItem('token');
     } catch (error) {

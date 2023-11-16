@@ -9,7 +9,9 @@ const CartProvider = ({ children }) => {
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
-    setCart(storedCart);
+    const userId = localStorage.getItem('userId'); // Dapatkan ID pengguna
+    const userCart = storedCart.filter((item) => item.userId === userId);
+    setCart(userCart);
   }, []);
 
   const saveCartToLocalStorage = (newCart) => {
@@ -24,7 +26,8 @@ const CartProvider = ({ children }) => {
       setCart(newCart);
       saveCartToLocalStorage(newCart);
     } else {
-      const newItem = { ...product, amount: 1 };
+      const userId = localStorage.getItem('userId'); // Dapatkan ID pengguna
+      const newItem = { ...product, amount: 1, userId };
       const newCart = [...cart, newItem];
       setCart(newCart);
       saveCartToLocalStorage(newCart);
