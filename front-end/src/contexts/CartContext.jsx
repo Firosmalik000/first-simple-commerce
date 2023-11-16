@@ -1,79 +1,77 @@
 import React, { createContext, useEffect, useState } from 'react';
 
 export const CartContext = createContext();
+
 const CartProvider = ({ children }) => {
   const [itemAmount, setItemAmount] = useState(0);
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
-  const addToCart = (product, _id) => {
-    const newItem = { ...product, amount: 1 };
-
-    const cartItem = cart.find((item) => {
-      return item._id === _id;
-    });
-    if (cartItem) {
-      const newCart = [...cart].map((item) => {
-        if (item._id === _id) {
-          return { ...item, amount: cartItem.amount + 1 };
-        } else {
-          return item;
-        }
-      });
-      setCart(newCart);
-    } else {
-      setCart([...cart, newItem]);
-    }
-  };
-  const removeCart = (_id) => {
-    const newCart = cart.filter((item) => {
-      return item._id !== _id;
-    });
-    setCart(newCart);
-  };
-  const clearCart = () => {
-    setCart([]);
-  };
 
   useEffect(() => {
-    if (cart) {
-      const amount = cart.reduce((accumulator, currentitem) => {
-        return accumulator + currentitem.amount;
-      }, 0);
-      setItemAmount(amount);
-    }
-  }, [cart]);
+    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    setCart(storedCart);
+  }, []);
 
-  const IncreaseAmount = (_id) => {
+  const saveCartToLocalStorage = (newCart) => {
+    localStorage.setItem('cart', JSON.stringify(newCart));
+  };
+
+  const addToCart = (product, _id) => {
+    const cartItem = cart.find((item) => item._id === _id);
+
+    if (cartItem) {
+      const newCart = cart.map((item) => (item._id === _id ? { ...item, amount: item.amount + 1 } : item));
+      setCart(newCart);
+      saveCartToLocalStorage(newCart);
+    } else {
+      const newItem = { ...product, amount: 1 };
+      const newCart = [...cart, newItem];
+      setCart(newCart);
+      saveCartToLocalStorage(newCart);
+    }
+  };
+
+  const removeCart = (_id) => {
+    const newCart = cart.filter((item) => item._id !== _id);
+    setCart(newCart);
+    saveCartToLocalStorage(newCart);
+  };
+
+  const clearCart = () => {
+    setCart([]);
+    localStorage.removeItem('cart');
+  };
+
+  const increaseAmount = (_id) => {
     const cartItem = cart.find((item) => item._id === _id);
     addToCart(cartItem, _id);
   };
-  const DecreaseAmount = (_id) => {
-    const cartItem = cart.find((item) => {
-      return item._id === _id;
-    });
+
+  const decreaseAmount = (_id) => {
+    const cartItem = cart.find((item) => item._id === _id);
+
     if (cartItem) {
-      const newCart = cart.map((item) => {
-        if (item._id === _id) {
-          return { ...item, amount: cartItem.amount - 1 };
-        } else {
-          return item;
-        }
-      });
+      const newCart = cart.map((item) => (item._id === _id ? { ...item, amount: item.amount - 1 } : item));
       setCart(newCart);
-    }
-    if (cartItem.amount < 2) {
-      removeCart(id);
+      saveCartToLocalStorage(newCart);
+
+      if (cartItem.amount < 2) {
+        removeCart(_id);
+      }
     }
   };
 
   useEffect(() => {
-    const newTotal = cart.reduce((accumulator, currentitem) => {
-      return accumulator + currentitem.price * currentitem.amount;
-    }, 0);
-    setTotal(newTotal);
-  });
+    const amount = cart.reduce((accumulator, currentItem) => accumulator + currentItem.amount, 0);
+    setItemAmount(amount);
+  }, [cart]);
 
-  return <CartContext.Provider value={{ cart, addToCart, removeCart, IncreaseAmount, clearCart, DecreaseAmount, itemAmount, total }}>{children}</CartContext.Provider>;
+  useEffect(() => {
+    const newTotal = cart.reduce((accumulator, currentItem) => accumulator + currentItem.price * currentItem.amount, 0);
+    setTotal(newTotal);
+  }, [cart]);
+
+  return <CartContext.Provider value={{ cart, addToCart, removeCart, increaseAmount, clearCart, decreaseAmount, itemAmount, total }}>{children}</CartContext.Provider>;
 };
 
 export default CartProvider;
