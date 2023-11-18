@@ -12,7 +12,7 @@ const Header = () => {
   const [isActive, setIsActive] = useState(true);
 
   const { itemAmount } = useContext(CartContext);
-  const { loggedIn, getLoggedIn, user } = useContext(AuthContext);
+  const { loggedIn, getLoggedIn } = useContext(AuthContext);
   useEffect(() => {
     getLoggedIn();
   }, [getLoggedIn]);
@@ -45,7 +45,7 @@ const Header = () => {
             <button className="  rounded text-black hover:text-white font-bold capitalize font-xl rounded-lg hover:bg-sky-600  transition duration-300 px-4 py-2">{username}</button>
           </Link>
         )}
-        <Link to={'/cart'}>
+        <Link to={'/cart'} className="hover:bg-blue-500 hover:text-white transition duration-300  p-2 rounded-full">
           <div className="cursor-pointer flex relative ">
             <BsBag className="text-2xl" />
             <div className="bg-red-500 absolute -right-2 -bottom-2 text-[12px] w-[18px] text-white rounded-full flex justify-center items-center">{itemAmount} </div>

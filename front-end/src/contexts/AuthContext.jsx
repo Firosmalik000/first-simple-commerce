@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { createContext, useEffect, useState } from 'react';
-import { getUseData } from '../service/cartservice';
 
 const AuthContext = createContext();
 
@@ -17,17 +16,7 @@ function AuthContextProvider(props) {
     getLoggedIn();
   }, []);
 
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    getUseData((data) => {
-      console.log(data);
-      setUser(data);
-    });
-  }, []);
-  console.log(user, 'user context');
-
-  return <AuthContext.Provider value={{ user, loggedIn, getLoggedIn }}>{props.children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ loggedIn, getLoggedIn }}>{props.children}</AuthContext.Provider>;
 }
 
 export default AuthContext;

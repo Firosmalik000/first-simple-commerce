@@ -6,15 +6,18 @@ export const AddressContext = createContext();
 const AddressProvider = ({ children }) => {
   const [address, setAddress] = useState([]);
   useEffect(() => {
-    axios
-      .get('http://localhost:5000/api/adress')
-      .then((res) => {
-        setAddress(res.data.data);
-       
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const fetchData = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+
+        const response = await axios.get(`http://localhost:5000/api/adress/user/${userId}`);
+
+        setAddress(response.data);
+      } catch (error) {
+        console.error('Error fetching cart data:', error);
+      }
+    };
+    fetchData();
   }, []);
   return <AddressContext.Provider value={{ address }}>{children} </AddressContext.Provider>;
 };

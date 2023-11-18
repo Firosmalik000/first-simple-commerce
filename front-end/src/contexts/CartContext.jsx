@@ -14,9 +14,9 @@ const CartProvider = ({ children }) => {
     const fetchData = async () => {
       try {
         const userId = localStorage.getItem('userId');
-        console.log('Current userId:', userId); // Log untuk memeriksa nilai userId
+
         const response = await axios.get(`http://localhost:5000/api/cart/user/${userId}`);
-        console.log('Fetched cart data:', response.data); // Log untuk memeriksa data yang diterima
+
         setCart(response.data);
       } catch (error) {
         console.error('Error fetching cart data:', error);
@@ -25,7 +25,6 @@ const CartProvider = ({ children }) => {
 
     fetchData();
   }, []);
-  console.log(cart);
 
   const saveCartToLocalStorage = (newCart) => {
     localStorage.setItem('cart', JSON.stringify(newCart));
