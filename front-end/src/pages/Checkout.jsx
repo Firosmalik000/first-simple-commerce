@@ -32,7 +32,7 @@ const CheckoutPage = () => {
       <Header />
       <section className=" bg-blue-500">
         <div className=" shadow shadow-2xl   h-screen flex items-center">
-          <div className="w-[80%] mt-[40px] bg-white mx-auto border rounded-lg ">
+          <div className="w-[80%] mt-[40px] bg-white   mx-auto border rounded-lg ">
             <AddressCard address={address} />
 
             <div className="h-[500px] w-[90%] border-b mx-auto mt-5">
@@ -82,7 +82,7 @@ const CheckoutPage = () => {
             </div>
             <Link to={'/invoice'}>
               <div className="w-full  flex justify-end">
-                <button className="  bg-blue-600 rounded rounded-lg text-xl mx-[60px] mt-3 hover:bg-blue-900 transition-all px-5 flex py-3 px-3 text-white">Check Out </button>
+                <button className="   bg-blue-600 rounded rounded-lg text-xl mx-[60px] mt-3 hover:bg-blue-900 transition-all px-5 flex py-3 px-3 text-white">Check Out </button>
               </div>
             </Link>
           </div>

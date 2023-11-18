@@ -21,7 +21,7 @@ const Product = ({ search }) => {
     }
   };
   return (
-    <div className=" mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
+    <div className=" mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  ">
       {products
         .filter((item) => {
           return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);

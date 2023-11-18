@@ -11,7 +11,7 @@ const InvoicePage = () => {
   return (
     <section className="bg-blue-400">
       <div className="   h-screen flex  items-center">
-        <div className=" bg-white p-5 w-[30%] h-[80%] mx-auto border rounded-lg ">
+        <div className=" bg-white p-5 w-[500px] h-[80%] mx-auto border rounded-lg ">
           <h1 className="text-center text-4xl font-bold mt-5 text-blue-500 mb-5">Invoice</h1>
           <AiOutlineCheckCircle className="text-3xl text-green-500 mx-auto" />
           <div className="mb-5">

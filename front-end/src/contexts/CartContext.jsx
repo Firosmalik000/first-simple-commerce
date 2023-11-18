@@ -35,6 +35,7 @@ const CartProvider = ({ children }) => {
 
     if (cartItem) {
       const newCart = cart.map((item) => (item._id === _id ? { ...item, amount: item.amount + 1 } : item));
+
       setCart(newCart);
       saveCartToLocalStorage(newCart);
     } else {
