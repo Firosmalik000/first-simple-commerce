@@ -22,6 +22,7 @@ const AddressPage = () => {
       kota,
       provinsi,
       detail,
+      user: localStorage.getItem('userId'),
     };
     axios
       .post('http://localhost:5000/api/adress', data)

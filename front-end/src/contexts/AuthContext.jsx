@@ -25,6 +25,7 @@ function AuthContextProvider(props) {
       setUser(data);
     });
   }, []);
+  console.log(user, 'user context');
 
   return <AuthContext.Provider value={{ user, loggedIn, getLoggedIn }}>{props.children}</AuthContext.Provider>;
 }

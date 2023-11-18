@@ -9,16 +9,22 @@ import Header from '../fragment/Header';
 
 const CheckoutPage = () => {
   const [address, setAddress] = useState([]);
+
   useEffect(() => {
-    axios
-      .get('http://localhost:5000/api/adress')
-      .then((res) => {
-        setAddress(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const fetchData = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        console.log('Current userId:', userId);
+        const response = await axios.get(`http://localhost:5000/api/adress/user/${userId}`);
+        console.log('Fetched cart data:', response.data);
+        setAddress(response.data);
+      } catch (error) {
+        console.error('Error fetching cart data:', error);
+      }
+    };
+    fetchData();
   }, []);
+  console.log(address);
   const { cart, total, itemAmount } = useContext(CartContext);
 
   return (

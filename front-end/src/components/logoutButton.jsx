@@ -17,6 +17,8 @@ function Logoutbtn() {
       localStorage.removeItem('cart');
       navigate('/login');
       localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('name');
     } catch (error) {
       console.error(error);
     }

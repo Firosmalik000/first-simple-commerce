@@ -4,9 +4,17 @@ import { IoMdAdd, IoMdClose, IoMdRemove } from 'react-icons/io';
 import { CartContext } from '../contexts/CartContext';
 
 const CartItem = ({ item }) => {
-  const { name, _id, image_url, price, amount } = item;
+  const { name, _id, image_url, price, amount, user } = item;
 
-  const { removeCart, increaseAmount, decreaseAmount } = useContext(CartContext);
+  const { increaseAmount, decreaseAmount, removeCart } = useContext(CartContext);
+
+  // Menambahkan kondisi untuk hanya menampilkan item keranjang yang sesuai dengan pengguna yang login
+  const isLoggedInUserItem = user && user._id === localStorage.getItem('userId');
+
+  if (!isLoggedInUserItem) {
+    // Jika item tidak sesuai dengan pengguna yang login, return null atau komponen kosong
+    return null;
+  }
   return (
     <div className="flex gap-x-4 py-2 lg:px-6 border-b border-gray-200 items-center flex justify-center mx-auto  w-[90%] ">
       <div className="w-full min-h-[150px] flex items-center gap-x-4">

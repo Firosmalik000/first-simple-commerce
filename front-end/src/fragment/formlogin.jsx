@@ -21,18 +21,23 @@ const FormLogin = () => {
         },
         withCredentials: true,
       });
-      localStorage.setItem('token', response.data.token);
-      const userId = response.data; // Asumsikan respons server menyertakan ID pengguna
-      localStorage.setItem('userId', userId);
-      console.log(response);
-      localStorage.setItem('token', response.data.token);
 
-      enqueueSnackbar('Login Berhasil', { variant: 'success' });
-      await getLoggedIn();
-      navigate('/');
+      if (response.data) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('userId', response.data.id);
+        localStorage.setItem('name', response.data.name);
+
+        enqueueSnackbar('Login Berhasil', { variant: 'success' });
+        await getLoggedIn();
+        navigate('/');
+        console.log(response.data);
+      } else {
+        console.error('Respon server tidak sesuai format yang diharapkan.');
+        enqueueSnackbar('Terjadi kesalahan saat login', { variant: 'error' });
+      }
     } catch (error) {
       console.error(error);
-      enqueueSnackbar(error.response.data.message, { variant: 'error' });
+      enqueueSnackbar(error.response?.data?.message || 'Terjadi kesalahan saat login', { variant: 'error' });
     }
   };
   return (

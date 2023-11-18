@@ -22,6 +22,7 @@ const Header = () => {
       window.scrollY > 60 ? setIsActive(true) : setIsActive(false);
     });
   });
+  const username = localStorage.getItem('name');
 
   return (
     <header className={`${isActive ? 'bg-white py-4 shadow-md' : 'bg-none py-6'} fixed w-full z-20 transition-all`}>
@@ -41,7 +42,7 @@ const Header = () => {
         ) : (
           <Link to={'/profile'}>
             {' '}
-            <button className="  rounded text-black hover:text-white rounded-lg hover:bg-sky-600  transition duration-300 px-4 py-2">{user.name}</button>
+            <button className="  rounded text-black hover:text-white font-bold capitalize font-xl rounded-lg hover:bg-sky-600  transition duration-300 px-4 py-2">{username}</button>
           </Link>
         )}
         <Link to={'/cart'}>

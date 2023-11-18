@@ -1,4 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSnackbar } from 'notistack';
 
 export const CartContext = createContext();
 
@@ -6,19 +8,30 @@ const CartProvider = ({ children }) => {
   const [itemAmount, setItemAmount] = useState(0);
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
-    const userId = localStorage.getItem('userId'); // Dapatkan ID pengguna
-    const userCart = storedCart.filter((item) => item.userId === userId);
-    setCart(userCart);
+    const fetchData = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        console.log('Current userId:', userId); // Log untuk memeriksa nilai userId
+        const response = await axios.get(`http://localhost:5000/api/cart/user/${userId}`);
+        console.log('Fetched cart data:', response.data); // Log untuk memeriksa data yang diterima
+        setCart(response.data);
+      } catch (error) {
+        console.error('Error fetching cart data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
+  console.log(cart);
 
   const saveCartToLocalStorage = (newCart) => {
     localStorage.setItem('cart', JSON.stringify(newCart));
   };
 
-  const addToCart = (product, _id) => {
+  const addToCart = async (product, _id) => {
     const cartItem = cart.find((item) => item._id === _id);
 
     if (cartItem) {
@@ -26,44 +39,112 @@ const CartProvider = ({ children }) => {
       setCart(newCart);
       saveCartToLocalStorage(newCart);
     } else {
-      const userId = localStorage.getItem('userId'); // Dapatkan ID pengguna
+      const userId = localStorage.getItem('userId');
       const newItem = { ...product, amount: 1, userId };
-      const newCart = [...cart, newItem];
-      setCart(newCart);
-      saveCartToLocalStorage(newCart);
-    }
-  };
 
-  const removeCart = (_id) => {
-    const newCart = cart.filter((item) => item._id !== _id);
-    setCart(newCart);
-    saveCartToLocalStorage(newCart);
-  };
+      try {
+        const response = await axios.post('http://localhost:5000/api/cart', {
+          name: newItem.name,
+          amount: newItem.amount,
+          price: newItem.price,
+          description: newItem.description,
+          user: newItem.userId,
+          image_url: newItem.image_url,
+          product: newItem._id,
+        });
 
-  const clearCart = () => {
-    setCart([]);
-    localStorage.removeItem('cart');
-  };
-
-  const increaseAmount = (_id) => {
-    const cartItem = cart.find((item) => item._id === _id);
-    addToCart(cartItem, _id);
-  };
-
-  const decreaseAmount = (_id) => {
-    const cartItem = cart.find((item) => item._id === _id);
-
-    if (cartItem) {
-      const newCart = cart.map((item) => (item._id === _id ? { ...item, amount: item.amount - 1 } : item));
-      setCart(newCart);
-      saveCartToLocalStorage(newCart);
-
-      if (cartItem.amount < 2) {
-        removeCart(_id);
+        if (response.status === 201) {
+          setCart((prevCart) => [...prevCart, newItem]);
+          saveCartToLocalStorage([...cart, newItem]);
+        } else {
+          console.error('Error adding to cart:', response.data);
+        }
+      } catch (error) {
+        console.error('Error adding to cart:', error);
       }
     }
   };
 
+  const removeCart = async (_id) => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const response = await axios.delete(`http://localhost:5000/api/cart/user/${userId}/${_id}`); // Perbaiki URL API
+
+      if (response.status === 200) {
+        const newCart = cart.filter((item) => item._id !== _id);
+        setCart(newCart);
+        saveCartToLocalStorage(newCart);
+      } else {
+        console.error('Error removing from cart:', response.data);
+      }
+    } catch (error) {
+      console.error('Error removing from cart:', error);
+    }
+  };
+
+  const clearUserCart = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const response = await axios.delete(`http://localhost:5000/api/cart/user/${userId}`);
+
+      if (response.status === 200) {
+        setCart([]);
+        saveCartToLocalStorage([]);
+        enqueueSnackbar('Cart cleared successfully', { variant: 'success' });
+      } else {
+        enqueueSnackbar('Gagal Menghapus Cart', { variant: 'error' });
+      }
+    } catch (error) {
+      console.error('Error clearing user cart:', error);
+    }
+  };
+
+  const increaseAmount = async (_id) => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const response = await axios.patch(`http://localhost:5000/api/cart/user/${userId}/${_id}/increase`);
+
+      if (response.status === 200) {
+        const updatedCart = cart.map((item) => (item._id === _id ? { ...item, amount: item.amount + 1 } : item));
+        setCart(updatedCart);
+        saveCartToLocalStorage(updatedCart);
+      } else {
+        console.error('Error increasing amount:', response.data);
+      }
+    } catch (error) {
+      console.error('Error increasing amount:', error);
+    }
+  };
+
+  const decreaseAmount = async (_id) => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const cartItem = cart.find((item) => item._id === _id);
+
+      if (cartItem) {
+        // Kurangi jumlah item di client-side
+        const newCart = cart.map((item) => (item._id === _id ? { ...item, amount: item.amount - 1 } : item));
+
+        setCart(newCart);
+        saveCartToLocalStorage(newCart);
+
+        // Panggil endpoint server-side untuk mengurangkan jumlah item
+        const response = await axios.patch(`http://localhost:5000/api/cart/user/${userId}/${_id}/decrease`);
+
+        if (response.status === 200) {
+          // Item telah berhasil diupdate di server
+          if (cartItem.amount < 1) {
+            // Hapus item jika jumlah kurang dari 1 setelah pembaruan selesai
+            removeCart(_id);
+          }
+        } else {
+          console.error('Error decreasing item amount:', response.data);
+        }
+      }
+    } catch (error) {
+      console.error('Error decreasing item amount:', error);
+    }
+  };
   useEffect(() => {
     const amount = cart.reduce((accumulator, currentItem) => accumulator + currentItem.amount, 0);
     setItemAmount(amount);
@@ -74,7 +155,7 @@ const CartProvider = ({ children }) => {
     setTotal(newTotal);
   }, [cart]);
 
-  return <CartContext.Provider value={{ cart, addToCart, removeCart, increaseAmount, clearCart, decreaseAmount, itemAmount, total }}>{children}</CartContext.Provider>;
+  return <CartContext.Provider value={{ cart, addToCart, removeCart, increaseAmount, decreaseAmount, itemAmount, total, clearUserCart }}>{children}</CartContext.Provider>;
 };
 
 export default CartProvider;
