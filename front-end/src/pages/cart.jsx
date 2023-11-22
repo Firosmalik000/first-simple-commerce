@@ -8,9 +8,11 @@ import { CartContext } from '../contexts/CartContext';
 import { Link } from 'react-router-dom';
 import CartItem from './cartitem';
 import Header from '../fragment/Header';
+import { DarkMode } from '../contexts/DarkModeContext';
 
 const CartPage = () => {
   const { cart, clearCart, clearUserCart, total, itemAmount, user } = useContext(CartContext);
+  const { isDarkMode } = useContext(DarkMode);
   const handleCheckout = () => {
     console.log('User Info:', user);
   };
@@ -18,7 +20,7 @@ const CartPage = () => {
   return (
     <>
       <Header />
-      <div>
+      <div className={`${isDarkMode && 'bg-slate-900 text-white transition duration-300'}`}>
         <div className="w-[80%] items-center mx-auto ">
           <div className="flex items-center justify-between py-6 border-b mt-[80px] ">
             <div className="uppercase text-sm font-semibold">Shopping Bag ({itemAmount}) </div>

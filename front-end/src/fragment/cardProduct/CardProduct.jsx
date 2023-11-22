@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { ProductContext } from '../../contexts/ProductContext';
 import { CartContext } from '../../contexts/CartContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../../contexts/AuthContext';
 import CardSkeleton from '../../components/cardSkeleton';
 
@@ -10,13 +10,14 @@ const Product = ({ search }) => {
   const { products, isLoading } = useContext(ProductContext);
   const { addToCart } = useContext(CartContext);
   const { loggedIn, getLoggedIn } = useContext(AuthContext);
+  const { _id } = useParams();
   useEffect(() => {
     getLoggedIn();
   }, [getLoggedIn]);
 
   const handleAddToCart = (product) => {
     if (loggedIn) {
-      addToCart(product, product._id);
+      addToCart(product, _id);
     } else {
       navigate('/login');
     }

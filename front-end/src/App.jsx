@@ -15,6 +15,7 @@ import ProfilePage from './pages/profile';
 import CartPage from './pages/cart';
 import DeleteAddress from './pages/adress/deleteAddress';
 import EditAdress from './pages/adress/EditAdress';
+import ProductDetailsCart from './pages/ProductDetailCart';
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/invoice" element={<InvoicePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/:_id" element={<ProductDetailsCart />} />
         </Routes>
       </Router>
     </div>

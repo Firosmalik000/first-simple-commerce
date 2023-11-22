@@ -8,6 +8,7 @@ const CartProvider = ({ children }) => {
   const [itemAmount, setItemAmount] = useState(0);
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  // const [detailCart, setDetailCart] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -119,16 +120,11 @@ const CartProvider = ({ children }) => {
       const cartItem = cart.find((item) => item._id === _id);
 
       if (cartItem) {
-        // Kurangi jumlah item di client-side
         const newCart = cart.map((item) => (item._id === _id ? { ...item, amount: item.amount - 1 } : item));
-
-        // Panggil endpoint server-side untuk mengurangkan jumlah item
         const response = await axios.patch(`http://localhost:5000/api/cart/user/${userId}/${_id}/decrease`);
 
         if (response.status === 200) {
-          // Item telah berhasil diupdate di server
           if (cartItem.amount < 1) {
-            // Hapus item jika jumlah kurang dari 1 setelah pembaruan selesai
             removeCart(_id);
           }
         } else {
@@ -141,6 +137,8 @@ const CartProvider = ({ children }) => {
       console.error('Error decreasing item amount:', error);
     }
   };
+
+
   useEffect(() => {
     const amount = cart.reduce((accumulator, currentItem) => accumulator + currentItem.amount, 0);
     setItemAmount(amount);

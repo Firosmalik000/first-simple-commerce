@@ -59,8 +59,12 @@ router.post('/', async (req, res) => {
 });
 
 // Mendapatkan detail item dalam keranjang berdasarkan ID
-router.get('/:id', getCart, (req, res) => {
-  res.json(res.cart);
+router.get('/:id', getCart, async (req, res) => {
+  try {
+    res.json(res.locals.cart);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // clear user cart

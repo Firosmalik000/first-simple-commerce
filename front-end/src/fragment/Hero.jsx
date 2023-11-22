@@ -9,10 +9,10 @@ const Hero = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Simulate a 2-second loading time
+   
       setTimeout(() => {
         setIsLoading(false);
-      }, 3000);
+      }, 2000);
     };
 
     fetchData();

@@ -5,6 +5,8 @@ import { ProductContext } from '../contexts/ProductContext';
 import Header from '../fragment/Header';
 import Footer from '../fragment/Footer';
 import AuthContext from '../contexts/AuthContext';
+import DetailSkeleton from '../components/detailSkeleton';
+import { DarkMode } from '../contexts/DarkModeContext';
 
 const ProductDetails = () => {
   const { _id } = useParams();
@@ -12,10 +14,12 @@ const ProductDetails = () => {
   const { addToCart } = useContext(CartContext);
   const { loggedIn, getLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { isDarkMode, setIsDarkMode } = useContext(DarkMode);
   useEffect(() => {
     getLoggedIn();
   }, [getLoggedIn]);
 
+  const product = _id ? products.find((item) => item._id === _id) : detail;
   const handleAddToCart = (product) => {
     if (loggedIn) {
       addToCart(product, product._id);
@@ -24,18 +28,19 @@ const ProductDetails = () => {
     }
   };
 
-  const product = _id ? products.find((item) => item._id === _id) : detail;
-
   if (!product) {
-    return <section className="h-screen flex justify-center items-center">Loading.....</section>;
+    return <DetailSkeleton />;
   }
 
   const { name, price, description, image_url } = product;
   return (
-    <>
+    <div>
       <Header />
 
-      <section className="pt-32 pb-12 lg:py-32 h-[87.2vh] flex items-center">
+      <section className={`pt-32 pb-12 lg:py-32 h-[87.2vh] flex items-center  ${isDarkMode && 'bg-slate-900 text-white transition duration-300'}`}>
+        <button className="absolute right-2 top-2 bg-blue-600 p-2 text-white rounded mt-20 mr-2" onClick={() => setIsDarkMode(!isDarkMode)}>
+          {isDarkMode ? 'Light' : 'Dark'}
+        </button>
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row items-center">
             <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0 ">
@@ -53,7 +58,7 @@ const ProductDetails = () => {
         </div>
       </section>
       <Footer />
-    </>
+    </div>
   );
 };
 
