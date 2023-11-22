@@ -3,10 +3,12 @@ import React, { useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../contexts/AuthContext';
+import { useSnackbar } from 'notistack';
 
 function Logoutbtn() {
   const navigate = useNavigate();
   const { getLoggedIn } = useContext(AuthContext);
+  const { enqueueSnackbar } = useSnackbar();
   async function logout(e) {
     e.preventDefault();
     try {
@@ -19,6 +21,7 @@ function Logoutbtn() {
       localStorage.removeItem('token');
       localStorage.removeItem('userId');
       localStorage.removeItem('name');
+      enqueueSnackbar('Sampai Bertemu Kembali', { variant: 'success' });
     } catch (error) {
       console.error(error);
     }

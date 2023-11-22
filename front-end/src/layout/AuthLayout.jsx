@@ -8,7 +8,7 @@ const AuthLayout = (props) => {
 
   return (
     <div className={` flex flex-[800px] bg-hero2 w-[100%] bg-no-repeat bg-cover bg-center   min-h-screen items-center`}>
-      <div className="w-[23%] justify-center flex py-[50px] px-5 rounded-[20px] ml-[200px] bg-white bg-opacity-80  border border-slate-400">
+      <div className="w-[400px]-md justify-center flex py-[50px] px-5 rounded-[20px] ml-[200px] bg-white bg-opacity-80  border border-slate-400">
         <div className="w-full max-w-xs">
           <h1 className="text-blue-600 text-3xl font-bold mb-3 text-center"> {title}</h1>
           <p className="font-medium text-slate-500 mb-8 text-center">welcome plis enter your details</p>

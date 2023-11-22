@@ -7,10 +7,15 @@ export const ProductContext = createContext();
 const ProductProvider = ({ children }) => {
   const { _id } = useParams();
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    getProducts((data) => {
-      setProducts(data);
-    });
+    setIsLoading(true);
+    setTimeout(() => {
+      getProducts((data) => {
+        setProducts(data);
+        setIsLoading(false);
+      });
+    }, 3000);
   }, []);
   const [detail, setDetail] = useState(null);
   useEffect(() => {
@@ -40,7 +45,7 @@ const ProductProvider = ({ children }) => {
     });
   }, []);
 
-  return <ProductContext.Provider value={{ detail, products, drink, food, camilan }}>{children}</ProductContext.Provider>;
+  return <ProductContext.Provider value={{ isLoading, detail, products, drink, food, camilan }}>{children}</ProductContext.Provider>;
 };
 
 export default ProductProvider;

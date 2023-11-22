@@ -6,7 +6,7 @@ const orderSchema = new mongoose.Schema(
   {
     status: {
       type: String,
-      enum: ['wayting_payment', 'processing', 'in_delivery', 'delivered'],
+      enum: ['waiting_payment', 'processing', 'in_delivery', 'delivered'],
     },
     delivery_fee: {
       type: Number,

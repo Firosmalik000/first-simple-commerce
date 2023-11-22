@@ -3,13 +3,19 @@ import { AiOutlineCheckCircle } from 'react-icons/ai';
 
 import { AddressContext } from '../contexts/adressContext';
 import { CartContext } from '../contexts/CartContext';
+import { Link } from 'react-router-dom';
 
 const InvoicePage = () => {
-  const { cart, total, itemAmount } = useContext(CartContext);
+  const { cart, total, itemAmount, clearUserCart } = useContext(CartContext);
   const { address } = useContext(AddressContext);
 
   return (
     <section className="bg-blue-400">
+      <Link to={'/'}>
+        <button onClick={clearUserCart} className="absolute right-2 top-2 bg-red-600 p-2 text-white hover:bg-red-800 hover:text-white transition duration-300 active:scale-95  rounded mt-20 mr-2">
+          Back
+        </button>
+      </Link>
       <div className="   h-screen flex  items-center">
         <div className=" bg-white p-5 w-[500px] h-[80%] mx-auto border rounded-lg ">
           <h1 className="text-center text-4xl font-bold mt-5 text-blue-500 mb-5">Invoice</h1>

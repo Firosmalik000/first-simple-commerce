@@ -27,10 +27,9 @@ const FormLogin = () => {
         localStorage.setItem('userId', response.data.id);
         localStorage.setItem('name', response.data.name);
 
-        enqueueSnackbar('Login Berhasil', { variant: 'success' });
+        enqueueSnackbar(response.data.message, { variant: 'success' });
         await getLoggedIn();
         navigate('/');
-        console.log(response.data);
       } else {
         console.error('Respon server tidak sesuai format yang diharapkan.');
         enqueueSnackbar('Terjadi kesalahan saat login', { variant: 'error' });

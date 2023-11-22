@@ -92,16 +92,13 @@ router.patch('/user/:userId/:id/decrease', async (req, res) => {
     const userId = req.params.userId;
     const cartId = req.params.id;
 
-    // Ambil item keranjang yang sesuai
     const cart = await Cart.findOne({ user: userId, _id: cartId });
 
     if (!cart) {
       return res.status(404).json({ message: 'Item not found in cart' });
     }
 
-    // Pastikan jumlah item tidak kurang dari 1 sebelum mengurangkan
     if (cart.amount > 1) {
-      // Kurangi jumlah item
       cart.amount -= 1;
 
       // Simpan perubahan

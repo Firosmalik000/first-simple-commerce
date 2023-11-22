@@ -24,7 +24,7 @@ const CartProvider = ({ children }) => {
     };
 
     fetchData();
-  }, []);
+  }, [cart]);
 
   const saveCartToLocalStorage = (newCart) => {
     localStorage.setItem('cart', JSON.stringify(newCart));
@@ -34,10 +34,7 @@ const CartProvider = ({ children }) => {
     const cartItem = cart.find((item) => item._id === _id);
 
     if (cartItem) {
-      const newCart = cart.map((item) => (item._id === _id ? { ...item, amount: item.amount + 1 } : item));
-
-      setCart(newCart);
-      saveCartToLocalStorage(newCart);
+      increaseAmount(_id);
     } else {
       const userId = localStorage.getItem('userId');
       const newItem = { ...product, amount: 1, userId };
@@ -125,9 +122,6 @@ const CartProvider = ({ children }) => {
         // Kurangi jumlah item di client-side
         const newCart = cart.map((item) => (item._id === _id ? { ...item, amount: item.amount - 1 } : item));
 
-        setCart(newCart);
-        saveCartToLocalStorage(newCart);
-
         // Panggil endpoint server-side untuk mengurangkan jumlah item
         const response = await axios.patch(`http://localhost:5000/api/cart/user/${userId}/${_id}/decrease`);
 
@@ -140,6 +134,8 @@ const CartProvider = ({ children }) => {
         } else {
           console.error('Error decreasing item amount:', response.data);
         }
+        setCart(newCart);
+        saveCartToLocalStorage(newCart);
       }
     } catch (error) {
       console.error('Error decreasing item amount:', error);

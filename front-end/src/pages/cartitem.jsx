@@ -8,11 +8,9 @@ const CartItem = ({ item }) => {
 
   const { increaseAmount, decreaseAmount, removeCart } = useContext(CartContext);
 
-  // Menambahkan kondisi untuk hanya menampilkan item keranjang yang sesuai dengan pengguna yang login
   const isLoggedInUserItem = user && user._id === localStorage.getItem('userId');
 
   if (!isLoggedInUserItem) {
-    // Jika item tidak sesuai dengan pengguna yang login, return null atau komponen kosong
     return null;
   }
   return (
