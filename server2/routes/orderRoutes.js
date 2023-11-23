@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
     const { address, delivery_fee } = req.body;
     const items = await Cart.find({ user: req.user._id }).populate('product');
     if (!items) {
-      return res.status(400).json({ message: 'Cart not found' });
+      return res.status(404).json({ message: 'Cart tidak ditemukan' });
     }
     let adress = await Adress.findById(address);
     let order = new Order({

@@ -100,7 +100,7 @@ router.post('/', upload.single('image_url'), async (req, res) => {
     });
 
     await product.save();
-    res.send(product);
+    res.status(201).json(product);
   } catch (error) {
     res.status(400).json(error.message);
   }
@@ -111,7 +111,7 @@ router.put('/:id', async (req, res) => {
   try {
     const payload = req.body;
     if (!payload.name || !payload.price || !payload.description) {
-      return res.status(400).send('All fields are required');
+      return res.status(401).send('Harap isi semua kolom');
     }
     if (payload.category) {
       let category = await Category.findOne({ name: { $regex: payload.category, $options: 'i' } });
@@ -129,9 +129,9 @@ router.put('/:id', async (req, res) => {
     product.category = payload.category;
 
     await product.save();
-    res.send(product).status(201).json('Product updated successfully');
+    res.send(product).status(201).json('Product berhasil di update');
   } catch (error) {
-    res.status(400).json(error.message);
+    res.status(500).json(error.message);
   }
 });
 
@@ -139,11 +139,11 @@ router.delete('/:id', async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
     if (!product) {
-      return res.status(404).send('Product not found');
+      return res.status(404).send('Product tidak di temukan');
     }
-    res.status(201).json('Product deleted successfully');
+    res.status(201).json('Product berhasil di hapus');
   } catch (error) {
-    res.status(400).json(error.message);
+    res.status(500).json(error.message);
   }
 });
 

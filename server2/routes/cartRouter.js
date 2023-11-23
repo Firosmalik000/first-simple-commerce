@@ -6,7 +6,7 @@ async function getCart(req, res, next) {
   try {
     const cart = await Cart.findById(req.params.id);
     if (cart == null) {
-      return res.status(404).json({ message: 'Item not found in cart' });
+      return res.status(404).json({ message: 'Tidak ada item di keranjang' });
     }
 
     res.locals.cart = cart;
@@ -21,7 +21,7 @@ async function getCart(req, res, next) {
 router.get('/', async (req, res) => {
   try {
     const carts = await Cart.find().populate('user').populate('product');
-    res.json(carts);
+    res.status(200).json(carts)
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -31,20 +31,23 @@ router.get('/user/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
     const userCart = await Cart.find({ user: userId }).populate('user').populate('product');
+    if(userCart.length < 1) {
+      return res.status(404).json({ message: 'Keranjang tidak ditemukan' });
+    }
     res.status(200).json(userCart);
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ message: error.message });
   }
 });
 
-// Menambah item ke dalam keranjang
+
 router.post('/', async (req, res) => {
   const cart = new Cart({
     name: req.body.name,
     amount: req.body.amount,
     price: req.body.price,
     description: req.body.description,
-    user: req.body.user, // Menyimpan ID pengguna dari permintaan
+    user: req.body.user,
     image_url: req.body.image_url,
     product: req.body.product,
   });
@@ -52,16 +55,16 @@ router.post('/', async (req, res) => {
   try {
     const newCart = await cart.save();
 
-    res.status(201).json({ message: 'Cart created successfully', data: newCart });
+    res.status(201).json({ message: 'Cart berhasil ditambah', data: newCart });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 });
 
-// Mendapatkan detail item dalam keranjang berdasarkan ID
+
 router.get('/:id', getCart, async (req, res) => {
   try {
-    res.json(res.locals.cart);
+    res.status(200).json(res.locals.cart);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -72,7 +75,7 @@ router.delete('/user/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
     await Cart.deleteMany({ user: userId });
-    res.json({ message: 'All carts deleted successfully' });
+    res.status(201).json({ message: 'Keranjang berhasil dihapus' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -84,7 +87,7 @@ router.delete('/user/:userId/:id', async (req, res) => {
     const userId = req.params.userId;
     const cartId = req.params.id;
     await Cart.deleteOne({ user: userId, _id: cartId });
-    res.json({ message: 'Cart deleted successfully', data: cartId });
+    res.status(200).json({ message: 'Keranjang berhasil di hapus', data: cartId });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -104,14 +107,12 @@ router.patch('/user/:userId/:id/decrease', async (req, res) => {
 
     if (cart.amount > 1) {
       cart.amount -= 1;
-
-      // Simpan perubahan
       const updatedCart = await cart.save();
 
-      res.json(updatedCart);
+      res.status(200).json(updatedCart);
     } else {
       await Cart.deleteOne({ user: userId, _id: cartId });
-      res.json({ message: 'Cart deleted successfully', data: cartId });
+      res.status(201).json({ message: 'Keranjang berhasil di kurangi', data: cartId });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -123,21 +124,17 @@ router.patch('/user/:userId/:id/increase', async (req, res) => {
   try {
     const userId = req.params.userId;
     const cartId = req.params.id;
-
-    // Ambil item keranjang yang sesuai
     const cart = await Cart.findOne({ user: userId, _id: cartId });
 
     if (!cart) {
-      return res.status(404).json({ message: 'Item not found in cart' });
+      return res.status(404).json({ message: 'Tidak ditemukan item dalam keranjang' });
     }
 
-    // Tambah jumlah item
     cart.amount += 1;
 
-    // Simpan perubahan
     const updatedCart = await cart.save();
 
-    res.json(updatedCart);
+    res.status(200).json({ message: 'Keranjang berhasil di tambah', data: updatedCart });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

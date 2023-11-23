@@ -17,22 +17,20 @@ async function getAdress(req, res, next) {
   return next();
 }
 
-// Mendapatkan semua alamat
 router.get('/', async (req, res) => {
   try {
     const addresses = await Adress.find().populate('user');
-    res.json(addresses);
+    res / status(200).json({ message: 'Alamat Berhasil di muat', data: addresses });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Mendapatkan alamat untuk pengguna tertentu
 router.get('/user/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
     const userAddresses = await Adress.find({ user: userId }).populate('user');
-    res.status(200).json(userAddresses);
+    res.status(200).json({ message: 'Alamat Berdasarkan User Berhasil di muat', data: userAddresses });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -54,13 +52,12 @@ router.post('/', async (req, res) => {
     const newAddress = await address.save();
     res.status(201).json({ message: 'Alamat berhasil dibuat', data: newAddress });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 });
 
-// Mendapatkan detail alamat berdasarkan ID
 router.get('/:id', getAdress, (req, res) => {
-  res.json(res.locals.address);
+  res.status(200).json(res.locals.address);
 });
 
 // Menghapus alamat berdasarkan ID
@@ -69,9 +66,9 @@ router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     const address = await Adress.findByIdAndDelete(id);
     if (!address) {
-      return res.status(404).json({ message: 'Alamat tidak ditemukan' });
+      return res.status(404).json({ message: 'Alamat tidak di temukan' });
     }
-    res.json({ message: 'Alamat berhasil dihapus', data: address });
+    res.status(201).json({ message: 'Alamat berhasil di hapus', data: address });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

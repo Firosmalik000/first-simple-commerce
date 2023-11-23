@@ -28,15 +28,15 @@ router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
-      return res.status(400).json({ message: 'All fields are required' });
+      return res.status(401).json({ message: 'Harap isi semua kolom' });
     }
     if (password.length <= 5) {
-      res.status(400).json({ message: 'Password must be at least 6 characters' });
+      res.status(401).json({ message: 'Password harus lebih dari 5 karaketer' });
     }
 
     const existUser = await User.findOne({ email });
     if (existUser) {
-      return res.status(400).json({ message: 'Email already exists' });
+      return res.status(401).json({ message: 'Email sudah terdaftar' });
     }
     // hash password
     const salt = await bcrypt.genSalt();
@@ -72,7 +72,7 @@ router.post('/login', async (req, res) => {
     }
     const existUser = await User.findOne({ email });
     if (!existUser) {
-      return res.status(400).json({
+      return res.status(404).json({
         message: 'User Tidak Ditemukan',
       });
     }
@@ -80,7 +80,7 @@ router.post('/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, existUser.password);
 
     if (!isMatch) {
-      return res.status(400).json({
+      return res.status(401).json({
         message: 'Password Salah',
       });
     }
@@ -91,10 +91,8 @@ router.post('/login', async (req, res) => {
     res
       .cookie('token', token, {
         httpOnly: true,
-     
       })
       .json({ message: 'Selamat Datang Kembali', User: existUser, token, id: existUser._id, name: existUser.name });
-    console.log(User);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: err.message });
