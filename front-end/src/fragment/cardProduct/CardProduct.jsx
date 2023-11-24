@@ -28,7 +28,7 @@ const Product = ({ search }) => {
       if (products.length === 0) {
         return <CardSkeleton quantity={19} />;
       }
-    }, 3000);
+    }, 1500);
   });
 
   return (

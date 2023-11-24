@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 
-import AddressCard from './adress/addressCard';
+import AddressCard from '../fragment/adress/addressCard';
 
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -16,9 +16,7 @@ const CheckoutPage = () => {
     const fetchData = async () => {
       try {
         const userId = localStorage.getItem('userId');
-
         const response = await axios.get(`http://localhost:5000/api/adress/user/${userId}`);
-
         setAddress(response.data);
       } catch (error) {
         console.error('Error fetching cart data:', error);
@@ -62,30 +60,35 @@ const CheckoutPage = () => {
                       ))}
                     </div>
                     <span className="grid  grid-cols-3 gap-4 ml-5 text-xl  mb-2 w-full  h-[70px] items-center">
-                      <span className="text-2xl font-semibold mb-3">Sub Total</span>
+                      <span className="text-2xl font-semibold mb-1">Sub Total</span>
                       <span>:</span>
                       <span className="flex justify-between text-2xl">
                         <p>Rp. {total}</p>
                       </span>
-                      <span className="text-2xl font-semibold mb-3">Jumlah</span>
+                      <span className="text-2xl font-semibold mb-1">Jumlah</span>
                       <span>:</span>
                       <span className="flex justify-between text-2xl">
                         <p>{itemAmount}</p>
                       </span>
-                      <span className="text-2xl font-semibold mb-3">Biaya Ongkir</span>
+                      <span className="text-2xl font-semibold mb-1">Biaya Ongkir</span>
                       <span>:</span>
                       <span className="flex justify-between text-2xl">
                         <p className="text-red-500">Free</p>
                       </span>
-                      <span className="text-2xl font-semibold mb-3">Biaya Admin</span>
+                      <span className="text-2xl font-semibold mb-1">Biaya Admin</span>
                       <span>:</span>
                       <span className="flex justify-between text-2xl">
                         <p className="text-red-500">Free</p>
                       </span>
-                      <span className="text-2xl font-semibold mb-3">Total</span>
+                      <span className="text-2xl font-semibold mb-1">Total</span>
                       <span>:</span>
                       <span className="flex justify-between text-2xl">
                         <p>Rp. {total}</p>
+                      </span>
+                      <span className="text-2xl font-semibold mb-1">status</span>
+                      <span>:</span>
+                      <span className="flex justify-between text-2xl ">
+                        <p className="text-red-500">Waiting Payment</p>
                       </span>
                     </span>
                   </div>

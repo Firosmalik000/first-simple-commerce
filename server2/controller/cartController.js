@@ -13,9 +13,6 @@ const indexId = async (req, res) => {
   try {
     const userId = req.params.userId;
     const userCart = await Cart.find({ user: userId }).populate('user').populate('product');
-    if (userCart.length < 1) {
-      return res.status(404).json({ message: 'Keranjang tidak ditemukan' });
-    }
     res.status(200).json(userCart);
   } catch (error) {
     res.status(500).json({ message: error.message });

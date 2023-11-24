@@ -8,7 +8,6 @@ const CartProvider = ({ children }) => {
   const [itemAmount, setItemAmount] = useState(0);
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
-  // const [detailCart, setDetailCart] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -26,10 +25,6 @@ const CartProvider = ({ children }) => {
 
     fetchData();
   }, [cart]);
-
-  const saveCartToLocalStorage = (newCart) => {
-    localStorage.setItem('cart', JSON.stringify(newCart));
-  };
 
   const addToCart = async (product, _id) => {
     const cartItem = cart.find((item) => item._id === _id);
@@ -53,7 +48,6 @@ const CartProvider = ({ children }) => {
 
         if (response.status === 201) {
           setCart((prevCart) => [...prevCart, newItem]);
-          saveCartToLocalStorage([...cart, newItem]);
         } else {
           console.error('Error adding to cart:', response.data);
         }
@@ -66,12 +60,10 @@ const CartProvider = ({ children }) => {
   const removeCart = async (_id) => {
     try {
       const userId = localStorage.getItem('userId');
-      const response = await axios.delete(`http://localhost:5000/api/cart/user/${userId}/${_id}`); // Perbaiki URL API
-
+      const response = await axios.delete(`http://localhost:5000/api/cart/user/${userId}/${_id}`);
       if (response.status === 200) {
         const newCart = cart.filter((item) => item._id !== _id);
         setCart(newCart);
-        saveCartToLocalStorage(newCart);
       } else {
         console.error('Error removing from cart:', response.data);
       }
@@ -87,7 +79,7 @@ const CartProvider = ({ children }) => {
 
       if (response.status === 200) {
         setCart([]);
-        saveCartToLocalStorage([]);
+
         enqueueSnackbar('Cart cleared successfully', { variant: 'success' });
       } else {
         enqueueSnackbar('Gagal Menghapus Cart', { variant: 'error' });
@@ -105,7 +97,6 @@ const CartProvider = ({ children }) => {
       if (response.status === 200) {
         const updatedCart = cart.map((item) => (item._id === _id ? { ...item, amount: item.amount + 1 } : item));
         setCart(updatedCart);
-        saveCartToLocalStorage(updatedCart);
       } else {
         console.error('Error increasing amount:', response.data);
       }
@@ -131,13 +122,11 @@ const CartProvider = ({ children }) => {
           console.error('Error decreasing item amount:', response.data);
         }
         setCart(newCart);
-        saveCartToLocalStorage(newCart);
       }
     } catch (error) {
       console.error('Error decreasing item amount:', error);
     }
   };
-
 
   useEffect(() => {
     const amount = cart.reduce((accumulator, currentItem) => accumulator + currentItem.amount, 0);

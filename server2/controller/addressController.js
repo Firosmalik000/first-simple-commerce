@@ -13,7 +13,7 @@ const indexId = async (req, res) => {
   try {
     const userId = req.params.userId;
     const userAddresses = await Adress.find({ user: userId }).populate('user');
-    res.status(200).json({ message: 'Alamat Berdasarkan User Berhasil di muat', data: userAddresses });
+    res.status(200).json(userAddresses);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }

@@ -15,6 +15,7 @@ const DeleteAddress = () => {
       .delete(`http://localhost:5000/api/adress/${_id}`)
       .then(() => {
         enqueueSnackbar('Address deleted successfully', { variant: 'success' });
+        navigate('/checkout');
       })
       .catch((err) => {
         enqueueSnackbar(err.message, { variant: 'error' });

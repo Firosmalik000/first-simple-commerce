@@ -6,7 +6,7 @@ import axios from 'axios';
 import { CartContext } from '../contexts/CartContext';
 
 import { Link } from 'react-router-dom';
-import CartItem from './cartitem';
+import CartItem from '../fragment/cartitem';
 import Header from '../fragment/Header';
 import { DarkMode } from '../contexts/DarkModeContext';
 

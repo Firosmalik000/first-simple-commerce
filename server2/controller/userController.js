@@ -1,4 +1,7 @@
 const User = require('../model/userModel');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 
 const index = async (req, res) => {
   try {

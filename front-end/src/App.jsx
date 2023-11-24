@@ -6,15 +6,15 @@ import Home from './pages/Home';
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
 import ErrorPage from './pages/404';
-import AddressPage from './pages/adress/AddAddres';
+import AddressPage from './fragment/adress/AddAddres';
 
 import InvoicePage from './pages/Invoice';
 import CheckoutPage from './pages/Checkout';
 import ProfilePage from './pages/profile';
 
 import CartPage from './pages/cart';
-import DeleteAddress from './pages/adress/deleteAddress';
-import EditAdress from './pages/adress/EditAdress';
+import DeleteAddress from './fragment/adress/deleteAddress';
+import EditAdress from './fragment/adress/EditAdress';
 import ProductDetailsCart from './pages/ProductDetailCart';
 
 const App = () => {

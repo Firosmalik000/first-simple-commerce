@@ -1,11 +1,6 @@
 const router = require('express').Router();
-const User = require('../model/userModel');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-const userController = require('../controller/userController');
 
-dotenv.config();
+const userController = require('../controller/userController');
 
 // get user
 router.get('/', userController.index);
