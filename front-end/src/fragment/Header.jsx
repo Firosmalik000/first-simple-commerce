@@ -4,7 +4,7 @@ import { BsBag } from 'react-icons/bs';
 import { CartContext } from '../contexts/CartContext';
 import { Link } from 'react-router-dom';
 import Logo from '../img/logo.svg';
-import { AiOutlineLogin } from 'react-icons/ai';
+import { AiOutlineLogin, AiOutlineShoppingCart } from 'react-icons/ai';
 import AuthContext from '../contexts/AuthContext';
 import { FaRegUserCircle } from 'react-icons/fa';
 
@@ -47,7 +47,7 @@ const Header = () => {
         )}
         <Link to={'/cart'} className="hover:bg-blue-500 hover:text-white transition duration-300  p-2 rounded-full">
           <div className="cursor-pointer flex relative ">
-            <BsBag className="text-2xl" />
+            <AiOutlineShoppingCart className="text-2xl" />
             <div className="bg-red-500 absolute -right-2 -bottom-2 text-[12px] w-[18px] text-white rounded-full flex justify-center items-center">{itemAmount} </div>
           </div>
         </Link>

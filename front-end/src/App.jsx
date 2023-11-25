@@ -7,11 +7,9 @@ import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
 import ErrorPage from './pages/404';
 import AddressPage from './fragment/adress/AddAddres';
-
 import InvoicePage from './pages/Invoice';
 import CheckoutPage from './pages/Checkout';
 import ProfilePage from './pages/profile';
-
 import CartPage from './pages/cart';
 import DeleteAddress from './fragment/adress/deleteAddress';
 import EditAdress from './fragment/adress/EditAdress';

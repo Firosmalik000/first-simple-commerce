@@ -30,7 +30,9 @@ const CartProvider = ({ children }) => {
     const cartItem = cart.find((item) => item._id === _id);
 
     if (cartItem) {
-      increaseAmount(_id);
+      if (cartItem.amount >= 1) {
+        increaseAmount(_id);
+      }
     } else {
       const userId = localStorage.getItem('userId');
       const newItem = { ...product, amount: 1, userId };
