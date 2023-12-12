@@ -40,6 +40,26 @@ export const getCamilanCategory = (callback) => {
       console.log(err);
     });
 };
+export const getNagihTag = (callback) => {
+  axios
+    .get('http://localhost:5000/api/product?tag=sedap')
+    .then((res) => {
+      callback(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+export const getPedesTag = (callback) => {
+  axios
+    .get('http://localhost:5000/api/product?tag=pedas')
+    .then((res) => {
+      callback(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 //
 //
 //

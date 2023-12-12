@@ -130,6 +130,22 @@ const CartProvider = ({ children }) => {
     }
   };
 
+  const increaseByAmount = async (_id, amount) => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const response = await axios.post(`http://localhost:5000/api/cart/user/${userId}/${_id}/increase/${amount}`);
+
+      if (response.status === 200) {
+        const updatedCart = cart.map((item) => (item._id === _id ? { ...item, amount: item.amount + 1 } : item));
+        setCart(updatedCart);
+      } else {
+        console.error('Error increasing amount:', response.data);
+      }
+    } catch (error) {
+      console.error('Error increasing amount:', error);
+    }
+  };
+
   useEffect(() => {
     const amount = cart.reduce((accumulator, currentItem) => accumulator + currentItem.amount, 0);
     setItemAmount(amount);
@@ -140,7 +156,7 @@ const CartProvider = ({ children }) => {
     setTotal(newTotal);
   }, [cart]);
 
-  return <CartContext.Provider value={{ cart, addToCart, removeCart, increaseAmount, decreaseAmount, itemAmount, total, clearUserCart }}>{children}</CartContext.Provider>;
+  return <CartContext.Provider value={{ cart, addToCart, removeCart, increaseAmount, decreaseAmount, itemAmount, total, clearUserCart, increaseByAmount }}>{children}</CartContext.Provider>;
 };
 
 export default CartProvider;

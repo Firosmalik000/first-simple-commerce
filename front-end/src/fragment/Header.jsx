@@ -7,6 +7,7 @@ import Logo from '../img/logo.svg';
 import { AiOutlineLogin, AiOutlineShoppingCart } from 'react-icons/ai';
 import AuthContext from '../contexts/AuthContext';
 import { FaRegUserCircle } from 'react-icons/fa';
+import { MdOutlineShoppingBag } from 'react-icons/md';
 
 const Header = () => {
   const [isActive, setIsActive] = useState(true);
@@ -17,19 +18,14 @@ const Header = () => {
     getLoggedIn();
   }, [getLoggedIn]);
 
-  useEffect(() => {
-    window.addEventListener('scroll', () => {
-      window.scrollY > 60 ? setIsActive(true) : setIsActive(false);
-    });
-  });
   const username = localStorage.getItem('name');
 
   return (
-    <header className={`${isActive ? 'bg-white py-4 shadow-md' : 'bg-none py-6'} fixed w-full z-20 transition-all`}>
+    <header className={` bg-gradient-to-b from-red-600 via-30 to-orange-500  py-4 shadow-md text-white   fixed w-full z-20 transition-all`}>
       <div className="container mx-auto flex items-center justify-between h-full">
         <Link to={'/'}>
           <div>
-            <img className="w-[40px]" src={Logo} />
+            <MdOutlineShoppingBag className="text-white text-4xl" />
           </div>
         </Link>{' '}
         {loggedIn === false ? (
@@ -42,7 +38,7 @@ const Header = () => {
         ) : (
           <Link to={'/profile'}>
             {' '}
-            <button className="  rounded text-black hover:text-white font-bold capitalize font-xl rounded-lg hover:bg-sky-600  transition duration-300 px-4 py-2">{username}</button>
+            <button className="   text-white hover:text-gray-200 font-bold capitalize font-xl rounded-lg   transition duration-300 px-4 py-2">{username}</button>
           </Link>
         )}
         <Link to={'/cart'} className="hover:bg-blue-500 hover:text-white transition duration-300  p-2 rounded-full">

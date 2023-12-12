@@ -40,7 +40,7 @@ const CartPage = () => {
               </div>
             </div>
 
-            <Link to="/checkout" className="bg-blue-700 flex p-4 justify-center  items-center text-white w-[50%] mx-auto cursor-pointer rounded rounded-lg hover:bg-gray-500 transition duration-300   font-medium" onClick={handleCheckout}>
+            <Link to="/checkout" className="bg-orange-600 flex p-4 justify-center  items-center text-white w-[50%] mx-auto cursor-pointer  rounded-[20px] hover:bg-gray-500 transition duration-300   font-medium" onClick={handleCheckout}>
               Check Out
             </Link>
           </div>

@@ -37,5 +37,6 @@ router.patch('/user/:userId/:id/decrease', cartController.decrease);
 
 // increase cart
 router.patch('/user/:userId/:id/increase', cartController.increase);
+router.post('/user/:userId/:id/increase/:amount', cartController.increaseByAmount);
 
 module.exports = router;

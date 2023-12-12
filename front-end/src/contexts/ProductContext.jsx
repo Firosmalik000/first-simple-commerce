@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { getCamilanCategory, getDetailProduct, getDrinkCategory, getFoodCategory, getProducts } from '../service/productservice';
+import { getCamilanCategory, getDetailProduct, getDrinkCategory, getFoodCategory, getNagihTag, getProducts } from '../service/productservice';
 import { useParams } from 'react-router-dom';
 
 export const ProductContext = createContext();
@@ -44,8 +44,14 @@ const ProductProvider = ({ children }) => {
       setCamilan(data);
     });
   }, []);
+  const [nagih, setNagih] = useState([]);
+  useEffect(() => {
+    getNagihTag((data) => {
+      setNagih(data);
+    });
+  }, []);
 
-  return <ProductContext.Provider value={{ isLoading, detail, products, drink, food, camilan }}>{children}</ProductContext.Provider>;
+  return <ProductContext.Provider value={{ isLoading, detail, products, drink, food, camilan, nagih }}>{children}</ProductContext.Provider>;
 };
 
 export default ProductProvider;

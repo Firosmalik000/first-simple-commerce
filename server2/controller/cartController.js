@@ -112,6 +112,26 @@ const increase = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const increaseByAmount = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const cartId = req.params.id;
+    const amount = req.params.amount;
+    const cart = await Cart.findOne({ user: userId, _id: cartId });
+
+    if (!cart) {
+      return res.status(404).json({ message: 'Tidak ditemukan item dalam keranjang' });
+    }
+
+    cart.amount = amount;
+
+    const updatedCart = await cart.save();
+
+    res.status(200).json({ message: 'Keranjang berhasil di tambah', data: updatedCart });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 module.exports = {
   index,
   indexId,
@@ -121,4 +141,5 @@ module.exports = {
   removeUserCart,
   decrease,
   increase,
+  increaseByAmount
 };

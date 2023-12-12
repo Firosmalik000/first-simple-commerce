@@ -36,14 +36,13 @@ const CheckoutPage = () => {
 
   return (
     <>
-      <Header />
-      <section className=" bg-blue-500">
-        <div className=" shadow shadow-2xl   h-screen flex items-center">
-          <div className="w-[80%] mt-[40px] bg-white   mx-auto border rounded-lg ">
+      <section className=" bg-orange-600">
+        <div className="  shadow-2xl   h-screen flex items-center ">
+          <div className="w-[80%]  bg-white    mx-auto border rounded-lg my-20">
             {cart && cart.length > 0 ? (
               <>
                 <AddressCard address={address} />
-                <div className="h-[500px] w-[90%] border-b mx-auto mt-5">
+                <div className="min-h-[500px] w-[90%] border-b mx-auto mt-5">
                   <div>
                     <div className="w-full grid xl:grid-cols-4 md:grid-cols-2 gap-4">
                       {cart.map((item) => (
@@ -95,7 +94,7 @@ const CheckoutPage = () => {
                 </div>
                 <Link to={'/invoice'}>
                   <div className="w-full  flex justify-end">
-                    <button onClick={handleClick} className="   bg-blue-600 rounded rounded-lg text-xl mx-[60px] mt-3 hover:bg-blue-900 transition-all px-5 flex py-3 px-3 text-white">
+                    <button onClick={handleClick} className="   bg-orange-600  rounded-lg text-xl mx-[60px] mt-3 hover:bg-blue-900 transition-all px-5 flex py-3  text-white">
                       Check Out{' '}
                     </button>
                   </div>

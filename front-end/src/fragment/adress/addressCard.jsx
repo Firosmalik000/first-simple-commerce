@@ -7,8 +7,8 @@ import { MdOutlineDelete, MdOutlineAddBox } from 'react-icons/md';
 const AddressCard = ({ address }) => {
   return (
     <div>
-      <div className="h-[250px] border-b w-[90%] mx-auto">
-        <div className="flex mt-5 rounded rounded-lg mx-auto  w-[90%]">
+      <div className="min-h-[250px] border-b w-[90%] mx-auto">
+        <div className="flex mt-5  rounded-lg mx-auto  w-[90%]">
           <span className="grid  grid-cols-2 gap-4 ml-5 text-xl  mb-2 w-full  h-[70px] items-center">
             <span className="text-2xl font-semibold">Alamat Pengiriman</span>
             <Link to="/address">

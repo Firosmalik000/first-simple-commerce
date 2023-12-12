@@ -10,7 +10,7 @@ const InvoicePage = () => {
   const { address } = useContext(AddressContext);
 
   return (
-    <section className="bg-blue-400">
+    <section className="bg-orange-500">
       <Link to={'/'}>
         <button onClick={clearUserCart} className="absolute right-2 top-2 bg-red-600 p-2 text-white hover:bg-red-800 hover:text-white transition duration-300 active:scale-95  rounded mt-20 mr-2">
           Back
@@ -18,7 +18,7 @@ const InvoicePage = () => {
       </Link>
       <div className="   h-screen flex  items-center">
         <div className=" bg-white p-5 w-[500px] h-[80%] mx-auto border rounded-lg ">
-          <h1 className="text-center text-4xl font-bold mt-5 text-blue-500 mb-10">Invoice</h1>
+          <h1 className="text-center text-4xl font-bold mt-5 text-orange-500 mb-10">Invoice</h1>
 
           <div className="mb-5 h-[570px]">
             <span className="underline">Alamat : </span>
@@ -112,7 +112,7 @@ const InvoicePage = () => {
               </span>
             </span>
           </div>
-          <h1 className="text-center text-2xl font-bold mt-5 text-blue-500 mb-5">Terima kasih sudah belanja</h1>
+          <h1 className="text-center text-2xl font-bold mt-5 text-orange-600 mb-5">Terima kasih sudah belanja</h1>
         </div>
       </div>
     </section>

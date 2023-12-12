@@ -36,7 +36,7 @@ const AddressPage = () => {
     e.preventDefault();
   };
   return (
-    <section className=" shadow shadow-2xl   h-screen flex items-center">
+    <section className="  shadow-2xl   h-screen flex items-center">
       <div className="w-[40%] mx-auto border rounded-lg ">
         <h1 className="text-center text-2xl font-bold mt-5 text-blue-500 mb-5">Alamat</h1>{' '}
         <form className="w-[80%] mx-auto mt-5 mb-8">

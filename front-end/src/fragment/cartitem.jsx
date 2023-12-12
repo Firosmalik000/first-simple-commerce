@@ -5,9 +5,10 @@ import { CartContext } from '../contexts/CartContext';
 import { DarkMode } from '../contexts/DarkModeContext';
 
 const CartItem = ({ item }) => {
+  const [qty, setQty] = useState(item.amount);
   const { name, _id, image_url, price, amount, user } = item;
   const { isDarkMode } = useContext(DarkMode);
-  const { increaseAmount, decreaseAmount, removeCart, detailCart } = useContext(CartContext);
+  const { increaseAmount, decreaseAmount, removeCart, detailCart, increaseByAmount } = useContext(CartContext);
 
   const isLoggedInUserItem = user && user._id === localStorage.getItem('userId');
 
@@ -16,6 +17,18 @@ const CartItem = ({ item }) => {
   }
   const handleClick = (e) => {
     console.log('User Info', detailCart);
+  };
+  const handleAmount = (e) => {
+    e.preventDefault();
+    const amount = parseInt(e.target.value);
+
+    console.log(amount, 'amount');
+    setQty(amount);
+  };
+  const submitAmount = (e) => {
+    const amount = parseInt(e.target.value);
+    console.log(`submit : ${amount}`);
+    increaseByAmount(_id, amount);
   };
   return (
     <div className={`flex gap-x-4 py-2 lg:px-6 border-b border-gray-200 items-center flex justify-center mx-auto  w-[90%] `}>
@@ -37,7 +50,8 @@ const CartItem = ({ item }) => {
               <div className="flex-1 h-full flex justify-center items-center cursor-pointer h-full  bg-white" onClick={() => decreaseAmount(_id)}>
                 <IoMdRemove />
               </div>
-              <div className="h-full flex justify-center items-center px-2  bg-white"> {amount}</div>
+              <input type="text" className="h-full flex justify-center items-center px-2  bg-white" onChange={handleAmount} onBlur={submitAmount} value={qty} />
+              {/* <div className="h-full flex justify-center items-center px-2  bg-white"> {amount}</div> */}
               <div className="flex-1 h-full flex justify-center items-center cursor-pointer  bg-white" onClick={() => increaseAmount(_id)}>
                 <IoMdAdd />
               </div>

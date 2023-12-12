@@ -28,22 +28,25 @@ const DrinkCategory = ({ search }) => {
         })
         .map((product) => (
           <div key={product._id}>
-            <div className=" mx-3 flex flex-col  h-[400px] mb-10  ">
-              <div className="w-[300px]-md h-[300px] rounded-lg rounded border border-slate-300 ">
-                <div className="w-[200px] h-[250px] items- mt-4 justify-center  mx-auto flex   ">
-                  <div className="items-center justify-center flex">
-                    <Link to={`/product/${product._id}`}>
-                      <img className="group-hover:scale-110 transition duration-300" src={`http://localhost:5000/${product.image_url}`} />
-                    </Link>
+               <div className=" mx-3 flex flex-col  h-[280px] mb-10 border border-slate-300 hover:scale-105 transition duration-300 relative  ">
+                  <h1 className="absolute top-2 left-4 bg-red-500 px-3 py-1 text-white">{product.category.name}</h1>
+                  <div className="w-[150px]-md h-[180px] rounded-[50px]     ">
+                    <div className="w-[150px] h-[180px] items- mt-3 justify-center  mx-auto flex   ">
+                      <div className="items-center justify-center flex">
+                        <Link to={`/product/${product._id}`}>
+                          <img className="hover:scale-110 transition duration-300  rounded-lg" src={`http://localhost:5000/${product.image_url}`} />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-center  text-semibold">{product.name}</div>
+                  <div className="flex justify-between px-7 my-3">
+                    <div className="  text-semibold items-center  w-[50%] font-bold flex ">Rp.{product.price}</div>
+                    <button className="bg-orange-600 py-2  text-white  rounded-lg flex  w-[50%] mt-1 mb-1 justify-center px-1 items-center hover:bg-orange-400 transition duration-300" onClick={() => handleAddToCart(product)}>
+                      add to cart
+                    </button>
                   </div>
                 </div>
-              </div>
-              <div className="text-center text-xl text-semibold">{product.name}</div>
-              <div className="text-center text-xl text-semibold">{product.price}</div>
-              <button className="bg-blue-500 py-2 mx-auto text-white rounded rounded-lg flex mx-auto w-[80%] mt-1 mb-1 justify-center px-1 items-center hover:bg-blue-800 transition duration-300" onClick={() => handleAddToCart(product)}>
-                add to cart
-              </button>
-            </div>
           </div>
         ))}
     </div>

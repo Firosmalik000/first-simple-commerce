@@ -27,7 +27,7 @@ function Logoutbtn() {
     }
   }
   return (
-    <button className="bg-red-500 text-white rounded rounded-lg py-3 px-3" onClick={logout}>
+    <button className="bg-red-500 text-white rounded-lg py-3 px-3" onClick={logout}>
       Log Out?
     </button>
   );

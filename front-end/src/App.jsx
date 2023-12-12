@@ -14,6 +14,7 @@ import CartPage from './pages/cart';
 import DeleteAddress from './fragment/adress/deleteAddress';
 import EditAdress from './fragment/adress/EditAdress';
 import ProductDetailsCart from './pages/ProductDetailCart';
+import MessageButton from './components/MessageButton';
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/:_id" element={<ProductDetailsCart />} />
         </Routes>
       </Router>
+      <MessageButton />
     </div>
   );
 };

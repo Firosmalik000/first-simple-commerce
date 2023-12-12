@@ -45,7 +45,7 @@ const FormLogin = () => {
       <input className="text-sm border rounded mb-5 w-full py-2 px-3 text-slate-700 placeholder: opacity-50" label="Email" type="email" placeholder="exaple@gmail.com" name="email" onChange={(e) => setEmail(e.target.value)} />
       <label htmlFor="password">Password</label>
       <input className="text-sm border rounded mb-5 w-full py-2 px-3 text-slate-700 placeholder: opacity-50" label="Password" type="password" placeholder="*********" name="password" onChange={(e) => setPassword(e.target.value)} />
-      <button className="  bg-blue-600 w-full  text-white h-12  rounded-md" type="submit">
+      <button className="  bg-orange-600 w-full  text-white h-12  rounded-md" type="submit">
         Login
       </button>
     </form>

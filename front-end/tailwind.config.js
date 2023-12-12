@@ -22,8 +22,10 @@ module.exports = {
         secondary: '#F5E6E0',
       },
       backgroundImage: {
-        hero: "url('./img/background2.jpg')",
         hero2: "url('./img/background.png')",
+        minum: "url('./img/minum.png')",
+        food: "url('./img/food.jpg')",
+        camilan: "url('./img/camilan.jpg')",
       },
     },
   },
